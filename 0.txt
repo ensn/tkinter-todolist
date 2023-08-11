@@ -1,0 +1,11 @@
+type anything to add to this list
+type a number to remove that entry from the list
+type a number and something behind it to edit that entry
+type a number (and space after it) and start what you are typing with +, it will add to that entry
+type n to create a secondary list next to this
+now you will have to specify what list you want to change by putting the number (starts from 0) before the command (example: '1 new entry')
+type n 1 to insert a new list in the middle
+type r 1 to remove that list, because we dont need it
+crtl+z to undo
+crtl+y to redo
+ctrl+w to quit the program, or click the X in the top right corner, everything will save either way
