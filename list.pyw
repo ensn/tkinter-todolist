@@ -86,8 +86,11 @@ def processinput(event):
                     i=len(data)
                 addlist(i)
             elif command[0]=="r":
-                i=int(command[1])
-                deletelist(i)
+                if len(data)==0:
+                    0/0
+                else:
+                    i=int(command[1])
+                    deletelist(i)
             else:
                 if len(data)==1:
                     listindex=0
