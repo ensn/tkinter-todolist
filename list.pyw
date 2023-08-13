@@ -86,7 +86,7 @@ def processinput(event):
                     i=len(data)
                 addlist(i)
             elif command[0]=="r":
-                if len(data)==0:
+                if len(data)==1:
                     0/0
                 else:
                     i=int(command[1])
