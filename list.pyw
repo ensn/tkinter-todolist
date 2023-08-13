@@ -1,5 +1,5 @@
 import tkinter, os, copy
-global win, data, boxes, log
+global data, boxes, history, histindex
 
 def readdata():
     data=[]
@@ -12,7 +12,7 @@ def readdata():
     return data
 
 def buildgui():
-    global win, data, boxes
+    global data, boxes
     for list in data:
         boxes.append(tkinter.Listbox(win))
     for i in range(len(boxes)):
@@ -35,7 +35,6 @@ def updatebox(index):
 
 
 def saveandexit(event):
-    global win
     for i in range(len(data)):
         filew=open(str(i)+".txt", "w")
         for line in data[i]:
@@ -44,22 +43,22 @@ def saveandexit(event):
     win.destroy()
 
 def undo(event):
-    global data, log, logindex, win, boxes
-    if logindex>0:
+    global data, history, histindex, boxes
+    if histindex>0:
         for i in range(len(boxes)):
             win.grid_columnconfigure(i, weight=0)
-        logindex-=1
-        data=copy.deepcopy(log[logindex])
+        histindex-=1
+        data=copy.deepcopy(history[histindex])
         deleteboxes()
         buildgui()
 
 def redo(event):
-    global data, log, logindex, win, boxes
-    if logindex<len(log)-1:
+    global data, history, histindex, boxes
+    if histindex<len(history)-1:
         for i in range(len(boxes)):
             win.grid_columnconfigure(i, weight=0)
-        logindex+=1
-        data=copy.deepcopy(log[logindex])
+        histindex+=1
+        data=copy.deepcopy(history[histindex])
         deleteboxes()
         buildgui()
     
@@ -72,13 +71,12 @@ def deleteboxes():
 
 def processinput(event):
     #dont try to understand this code, it just works but idk how
-    global win, data, boxes, log, logindex
+    global data, boxes, history, histindex
     if len(data)==1:
         command=entry.get().split(" ", 1)
     else:
         command=entry.get().split(" ", 2)
     entry.delete(0, "end")
-    
     try:
         if command!=[]:
             if command[0]=="n":
@@ -110,8 +108,8 @@ def processinput(event):
                     else:
                         data[listindex].append(command[0]+" "+command[1])
                 updatebox(listindex) 
-        logindex+=1
-        log.insert(logindex, copy.deepcopy(data))   
+        histindex+=1
+        history.insert(histindex, copy.deepcopy(data))   
     except:
         pass
             
@@ -126,7 +124,7 @@ def addlist(i):
     buildgui()
 
 def deletelist(i):
-    global win, data, boxes
+    global data, boxes
     data.pop(i)
     os.remove(str(i)+".txt")
     for j in range(i+1, len(data)+1):
@@ -153,7 +151,7 @@ entry=tkinter.Entry(win)
 boxes=[]
 buildgui()
 
-log=[copy.deepcopy(data)]
-logindex=0
+history=[copy.deepcopy(data)]
+histindex=0
 
 win.mainloop()
